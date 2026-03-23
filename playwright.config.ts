@@ -11,6 +11,7 @@ export default defineConfig({
     ? [['allure-playwright', { resultsDir: './reports/allure-results' }]]
     : [['html', { outputFolder: './reports/html' }]],
   timeout: 60000,
+  expect: { timeout: 30000 },
   use: {
     trace: 'on-first-retry',
     navigationTimeout: 60000,
