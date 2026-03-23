@@ -25,7 +25,7 @@ Playwright end-to-end tests for the [Autoware](https://autoware.org/) website na
 ## Setup
 
 ```bash
-npm install
+npm ci
 npx playwright install chromium
 ```
 
@@ -80,3 +80,4 @@ The source test plan lives at `specs/autoware-website-navigation.plan.md`.
 - The automated suite verifies the public homepage-to-GitHub-to-README journey only.
 - **Browser translation** (right-click › Translate to Japanese) is a browser-native feature and cannot be automated via Playwright. Translation quality is documented as a manual check in the test plan.
 - `autoware.org` uses background polling that prevents `networkidle` from ever resolving; tests use the default `load` event instead.
+- Dependencies such as `playwright-core` stay in the local `node_modules/` directory and are not committed to GitHub. After cloning, users should run `npm ci` and `npx playwright install chromium`.
