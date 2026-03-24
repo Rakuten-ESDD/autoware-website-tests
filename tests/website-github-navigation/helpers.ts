@@ -17,6 +17,11 @@ export function getHomepageGitHubLink(page: Page): Locator {
   return page.getByRole('link', { name: /autoware on github/i }).first();
 }
 
+export async function expectGitHubOrgPage(page: Page): Promise<void> {
+  await expect(page).toHaveURL(/github\.com\/autowarefoundation\/?$/);
+  await expect(page.getByRole('link', { name: /repositories/i }).first()).toBeVisible();
+}
+
 export async function clickAndFollow(page: Page, locator: Locator): Promise<Page> {
   const popupPromise = page.waitForEvent('popup', { timeout: 5000 }).catch(() => null);
 
@@ -37,8 +42,7 @@ export async function clickHomepageGitHubLink(page: Page): Promise<Page> {
   await expect(githubLink).toHaveAttribute('href', /github\.com\/autowarefoundation/i);
 
   const orgPage = await clickAndFollow(page, githubLink);
-  await expect(orgPage).toHaveURL(/github\.com\/autowarefoundation\/?$/);
-  await expect(orgPage.getByText(/the autoware foundation/i).first()).toBeVisible();
+  await expectGitHubOrgPage(orgPage);
 
   return orgPage;
 }
@@ -56,8 +60,7 @@ export async function openGitHubOrgFromHome(page: Page): Promise<Page> {
   const response = await page.goto(href!);
   expect(response?.ok()).toBeTruthy();
 
-  await expect(page).toHaveURL(/github\.com\/autowarefoundation\/?$/);
-  await expect(page.getByText(/the autoware foundation/i).first()).toBeVisible();
+  await expectGitHubOrgPage(page);
 
   return page;
 }
